@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 </head>
 <body>
     <div id="inputContainer" class="container">
@@ -43,6 +44,18 @@
     </div>
 
     <div id="contentContainer" class="hidden">
+        <div id="cameraContainer" class="camera-container">
+            <video id="cameraFeed" playsinline autoplay muted></video>
+            <canvas id="cameraOverlay"></canvas>
+            <div id="cameraStatus" class="camera-status">Camera initialiseren...</div>
+        </div>
+
+        <div id="lockdownOverlay" class="lockdown-overlay hidden">
+            <div class="lockdown-content">
+                <h2>🚨 LOCKDOWN GEACTIVEERD</h2>
+                <p>Iemand probeerde mee te kijken!</p>
+            </div>
+        </div>
         <div id="studyContent" class="content-frame">
             <iframe id="studyFrame"></iframe>
         </div>
@@ -55,5 +68,6 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script src="camera.js"></script>
 </body>
 </html>

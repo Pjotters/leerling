@@ -1,8 +1,13 @@
 :root {
-    --primary-color: #4a90e2;
-    --secondary-color: #2c3e50;
-    --background-color: #f5f6fa;
-    --text-color: #2c3e50;
+    --primary-color: #6c5ce7;
+    --secondary-color: #a55eea;
+    --accent-color: #00d2d3;
+    --background-color: #0c0c1e;
+    --card-bg: #13132b;
+    --text-color: #fff;
+    --text-secondary: #8888a5;
+    --success-color: #00b894;
+    --error-color: #d63031;
 }
 
 * {
@@ -12,11 +17,13 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
     overflow: hidden;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--background-color) 0%, #1a1a3a 100%);
 }
 
 .container {
@@ -30,17 +37,74 @@ header {
     margin-bottom: 3rem;
 }
 
+header {
+    position: relative;
+}
+
+.header-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    background: var(--primary-color);
+    filter: blur(100px);
+    opacity: 0.5;
+    pointer-events: none;
+    animation: glow 4s ease-in-out infinite alternate;
+}
+
 header h1 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
+    font-size: 3.5rem;
+    background: linear-gradient(135deg, var(--text-color), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.accent {
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-top: 1rem;
+}
+
+.company {
+    color: var(--accent-color);
+    font-weight: 500;
+}
+
+@keyframes glow {
+    0% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
 }
 
 .url-inputs {
-    background: white;
+    background: var(--card-bg);
     padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.6s ease-out;
 }
 
 .input-group {
@@ -55,11 +119,19 @@ label {
 
 input[type="url"] {
     width: 100%;
-    padding: 0.8rem;
-    border: 2px solid #e1e1e1;
-    border-radius: 5px;
+    padding: 1rem 1.2rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     font-size: 1rem;
-    transition: border-color 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+input[type="url"]:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 input[type="url"]:focus {
@@ -68,15 +140,39 @@ input[type="url"]:focus {
 }
 
 button {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     border: none;
     padding: 1rem 2rem;
-    border-radius: 5px;
+    border-radius: 12px;
     font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
     width: 100%;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+}
+
+button:hover::before {
+    left: 100%;
 }
 
 button:hover {
@@ -85,10 +181,28 @@ button:hover {
 
 .recent-urls {
     margin-top: 2rem;
-    background: white;
+    background: var(--card-bg);
     padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.8s ease-out;
+}
+
+.recent-url {
+    padding: 0.8rem 1rem;
+    margin: 0.5rem 0;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.recent-url:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
 }
 
 .recent-urls h3 {
@@ -137,13 +251,32 @@ button:hover {
     height: 100%;
     pointer-events: none;
     opacity: 0;
-    /* Special CSS to hide from screen sharing */
-    transform: translate3d(0,0,0);
+    /* Maximum screen sharing protection */
+    transform-style: preserve-3d;
+    transform: translate3d(0,0,999999px);
     backface-visibility: hidden;
-    perspective: 1000px;
-    filter: opacity(0.99999);
-    mix-blend-mode: normal;
-    transition: opacity 0.3s ease;
+    perspective: 999999px;
+    transform-origin: 50% 50% 999999px;
+    filter: opacity(0.99999) blur(0) contrast(0.99999);
+    mix-blend-mode: exclusion;
+    background-blend-mode: exclusion;
+    isolation: isolate;
+    z-index: 2147483647;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
+    -webkit-font-smoothing: none;
+    image-rendering: optimizeSpeed;
+}
+
+.game-overlay iframe {
+    filter: contrast(0.99999) blur(0);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    transform: translateZ(999999px);
+    will-change: transform;
+    mix-blend-mode: exclusion;
+    image-rendering: optimizeSpeed;
+    pointer-events: auto;
 }
 
 .game-overlay.active {
@@ -158,6 +291,46 @@ button:hover {
     display: flex;
     gap: 10px;
     z-index: 1000;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Additional Animations */
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(108, 92, 231, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(108, 92, 231, 0);
+    }
 }
 
 .controls button {

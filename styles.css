@@ -226,7 +226,7 @@ button:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: white;
+    background: var(--background-color);
 }
 
 .content-frame {
@@ -235,12 +235,14 @@ button:hover {
     left: 0;
     width: 100%;
     height: 100%;
+    background: white;
 }
 
 .content-frame iframe {
     width: 100%;
     height: 100%;
     border: none;
+    background: white;
 }
 
 .game-overlay {
@@ -251,37 +253,26 @@ button:hover {
     height: 100%;
     pointer-events: none;
     opacity: 0;
-    /* Maximum screen sharing protection */
-    transform-style: preserve-3d;
-    transform: translate3d(0,0,999999px);
-    backface-visibility: hidden;
-    perspective: 999999px;
-    transform-origin: 50% 50% 999999px;
-    filter: opacity(0.99999) blur(0) contrast(0.99999);
-    mix-blend-mode: exclusion;
-    background-blend-mode: exclusion;
-    isolation: isolate;
-    z-index: 2147483647;
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform, opacity;
-    -webkit-font-smoothing: none;
-    image-rendering: optimizeSpeed;
+    /* Screen sharing protection */
+    transform: translate3d(0,0,0);
+    mix-blend-mode: normal;
+    z-index: 999999;
+    transition: opacity 0.3s ease;
 }
 
 .game-overlay iframe {
-    filter: contrast(0.99999) blur(0);
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    transform: translateZ(999999px);
-    will-change: transform;
-    mix-blend-mode: exclusion;
-    image-rendering: optimizeSpeed;
-    pointer-events: auto;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
 }
 
 .game-overlay.active {
     pointer-events: auto;
     opacity: 1;
+    background: white;
+    /* Screen capture protection */
+    filter: contrast(1);
 }
 
 .controls {

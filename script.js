@@ -73,6 +73,10 @@ function loadUrls(studyUrl = null, gameUrl = null) {
         return;
     }
 
+    // Show content container first
+    inputContainer.classList.add('hidden');
+    contentContainer.classList.remove('hidden');
+
     // Load study URL
     if (studyUrl) {
         studyFrame.src = studyUrl;
@@ -81,21 +85,30 @@ function loadUrls(studyUrl = null, gameUrl = null) {
         updateBrowserUrl(studyUrl);
     }
     
-    // Load game URL
+    // Load game URL with a slight delay to ensure proper loading
     if (gameUrl) {
-        gameFrame.src = gameUrl;
-        gameUrlInput.value = gameUrl;
-        addToRecent(gameUrl, false);
+        setTimeout(() => {
+            gameFrame.src = gameUrl;
+            gameUrlInput.value = gameUrl;
+            addToRecent(gameUrl, false);
+        }, 500);
     }
-    
-    // Show content container
-    inputContainer.classList.add('hidden');
-    contentContainer.classList.remove('hidden');
 }
 
 // Toggle game overlay
 function toggleGame() {
-    gameContent.classList.toggle('active');
+    const isActive = gameContent.classList.toggle('active');
+    if (isActive) {
+        gameContent.style.display = 'block';
+        setTimeout(() => {
+            gameContent.style.opacity = '1';
+        }, 50);
+    } else {
+        gameContent.style.opacity = '0';
+        setTimeout(() => {
+            gameContent.style.display = 'none';
+        }, 300);
+    }
 }
 
 // Event Listeners

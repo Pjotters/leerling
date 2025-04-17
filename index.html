@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <div id="inputContainer" class="container">
         <header>
             <h1>URLusion</h1>
             <p>Door The Pjotters-Company</p>
@@ -34,10 +34,18 @@
                 <div id="recentGameUrls"></div>
             </div>
         </main>
+    </div>
 
-        <div id="contentFrame" class="hidden">
-            <iframe id="studyFrame" class="content-frame"></iframe>
-            <iframe id="gameFrame" class="content-frame overlay-frame"></iframe>
+    <div id="contentContainer" class="hidden">
+        <div id="studyContent" class="content-frame">
+            <iframe id="studyFrame"></iframe>
+        </div>
+        <div id="gameContent" class="content-frame game-overlay">
+            <iframe id="gameFrame"></iframe>
+        </div>
+        <div class="controls">
+            <button id="toggleButton" title="Toggle Game (Ctrl + Space)">Toggle Game</button>
+            <button id="backButton">Terug naar URL Invoer</button>
         </div>
     </div>
     <script src="script.js"></script>

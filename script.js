@@ -2,9 +2,13 @@
 const studyUrlInput = document.getElementById('studyUrl');
 const gameUrlInput = document.getElementById('gameUrl');
 const startButton = document.getElementById('startButton');
-const contentFrame = document.getElementById('contentFrame');
+const inputContainer = document.getElementById('inputContainer');
+const contentContainer = document.getElementById('contentContainer');
 const studyFrame = document.getElementById('studyFrame');
 const gameFrame = document.getElementById('gameFrame');
+const gameContent = document.getElementById('gameContent');
+const toggleButton = document.getElementById('toggleButton');
+const backButton = document.getElementById('backButton');
 const recentStudyUrls = document.getElementById('recentStudyUrls');
 const recentGameUrls = document.getElementById('recentGameUrls');
 
@@ -27,10 +31,12 @@ function updateRecentUrls() {
 }
 
 // Add URL to recent list
-function addToRecent(url, isStydy) {
-    const list = isStydy ? recentStudyUrlsList : recentGameUrlsList;
-    const key = isStydy ? STORAGE_KEY_STUDY : STORAGE_KEY_GAME;
+function addToRecent(url, isStudy) {
+    const list = isStudy ? recentStudyUrlsList : recentGameUrlsList;
+    const key = isStudy ? STORAGE_KEY_STUDY : STORAGE_KEY_GAME;
     
+    if (!url) return;
+
     // Remove if exists and add to front
     const index = list.indexOf(url);
     if (index > -1) list.splice(index, 1);
@@ -44,45 +50,73 @@ function addToRecent(url, isStydy) {
     updateRecentUrls();
 }
 
-// Load URLs into frames
-function loadUrls(studyUrl = null, gameUrl = null) {
-    if (studyUrl) {
-        studyUrlInput.value = studyUrl;
-        studyFrame.src = studyUrl;
-        addToRecent(studyUrl, true);
-    }
+// Update browser URL and title
+function updateBrowserUrl(url) {
+    if (!url) return;
     
-    if (gameUrl) {
-        gameUrlInput.value = gameUrl;
-        gameFrame.src = gameUrl;
-        addToRecent(gameUrl, false);
-    }
-    
-    if (studyUrl || gameUrl) {
-        contentFrame.classList.remove('hidden');
+    try {
+        const urlObj = new URL(url);
+        window.history.pushState({}, '', url);
+        document.title = urlObj.hostname;
+    } catch (e) {
+        console.error('Invalid URL:', e);
     }
 }
 
-// Toggle game overlay with keyboard shortcut (Ctrl + Space)
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.code === 'Space') {
-        e.preventDefault();
-        gameFrame.classList.toggle('active');
-    }
-});
-
-// Start button click handler
-startButton.addEventListener('click', () => {
-    const studyUrl = studyUrlInput.value;
-    const gameUrl = gameUrlInput.value;
+// Load URLs into frames
+function loadUrls(studyUrl = null, gameUrl = null) {
+    if (!studyUrl) studyUrl = studyUrlInput.value;
+    if (!gameUrl) gameUrl = gameUrlInput.value;
     
     if (!studyUrl && !gameUrl) {
         alert('Voer tenminste één URL in!');
         return;
     }
+
+    // Load study URL
+    if (studyUrl) {
+        studyFrame.src = studyUrl;
+        studyUrlInput.value = studyUrl;
+        addToRecent(studyUrl, true);
+        updateBrowserUrl(studyUrl);
+    }
     
-    loadUrls(studyUrl, gameUrl);
+    // Load game URL
+    if (gameUrl) {
+        gameFrame.src = gameUrl;
+        gameUrlInput.value = gameUrl;
+        addToRecent(gameUrl, false);
+    }
+    
+    // Show content container
+    inputContainer.classList.add('hidden');
+    contentContainer.classList.remove('hidden');
+}
+
+// Toggle game overlay
+function toggleGame() {
+    gameContent.classList.toggle('active');
+}
+
+// Event Listeners
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.code === 'Space') {
+        e.preventDefault();
+        toggleGame();
+    }
 });
+
+toggleButton.addEventListener('click', toggleGame);
+
+backButton.addEventListener('click', () => {
+    contentContainer.classList.add('hidden');
+    inputContainer.classList.remove('hidden');
+    // Reset URL and title
+    window.history.pushState({}, '', window.location.pathname);
+    document.title = 'URLusion - The Pjotters-Company';
+});
+
+startButton.addEventListener('click', () => loadUrls());
 
 // Initialize recent URLs display
 updateRecentUrls();

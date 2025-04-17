@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URLusion - The Pjotters-Company</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>URLusion</h1>
+            <p>Door The Pjotters-Company</p>
+        </header>
+        
+        <main>
+            <div class="url-inputs">
+                <div class="input-group">
+                    <label for="studyUrl">Study URL:</label>
+                    <input type="url" id="studyUrl" placeholder="Voer je studie URL in..." required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="gameUrl">Game URL:</label>
+                    <input type="url" id="gameUrl" placeholder="Voer je game URL in..." required>
+                </div>
+                
+                <button id="startButton">Start URLusion</button>
+            </div>
+
+            <div class="recent-urls">
+                <h3>Recent gebruikte URLs:</h3>
+                <div id="recentStudyUrls"></div>
+                <div id="recentGameUrls"></div>
+            </div>
+        </main>
+
+        <div id="contentFrame" class="hidden">
+            <iframe id="studyFrame" class="content-frame"></iframe>
+            <iframe id="gameFrame" class="content-frame overlay-frame"></iframe>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

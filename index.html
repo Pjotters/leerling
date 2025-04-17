@@ -31,6 +31,21 @@
                     <label for="gameUrl">Game URL:</label>
                     <input type="url" id="gameUrl" placeholder="Voer je game URL in..." required>
                 </div>
+
+                <div class="protection-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="aiProtectionToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label">AI Bescherming</span>
+                    <div class="protection-info">
+                        <span class="info-icon">ℹ️</span>
+                        <div class="info-tooltip">
+                            AI Bescherming gebruikt je camera om te detecteren of iemand meekijkt.
+                            Bij detectie wordt automatisch een screenshot gemaakt en de game verborgen.
+                        </div>
+                    </div>
+                </div>
                 
                 <button id="startButton">Start URLusion</button>
             </div>
@@ -54,6 +69,10 @@
             <div class="lockdown-content">
                 <h2>🚨 LOCKDOWN GEACTIVEERD</h2>
                 <p>Iemand probeerde mee te kijken!</p>
+                <div id="capturedFace" class="captured-face hidden">
+                    <h3>Gedetecteerd gezicht:</h3>
+                    <canvas id="captureCanvas"></canvas>
+                </div>
             </div>
         </div>
         <div id="studyContent" class="content-frame">
